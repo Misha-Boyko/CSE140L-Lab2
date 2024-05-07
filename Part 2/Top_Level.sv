@@ -1,25 +1,27 @@
 // CSE140L  
 // see Structural Diagram in Lab2 assignment writeup
 // fill in missing connections and parameters
-module Top_Level #(parameter NS=60, NH=24)(
+module Top_Level #(parameter NS=60, NH=24, ND = 7)(
   input Reset,
         Timeset, 	  // manual buttons
         Alarmset,	  //	(five total)
 		Minadv,
 		Hrsadv,
+    Dayadv,
 		Alarmon,
 		Pulse,		  // digital clock, assume 1 cycle/sec.
 // 6 decimal digit display (7 segment)
   output logic [6:0] S1disp, S0disp, 	   // 2-digit seconds display
                M1disp, M0disp, 
                H1disp, H0disp,
-//                       D0disp,   // for part 2
+                       D0disp,   // for part 2
   output logic Buzz);	           // alarm sounds
 // internal connections (may need more)
-  logic[6:0] TSec, TMin, THrs,     // clock/time 
+  logic[6:0] TSec, TMin, THrs,    // clock/time 
              AMin, AHrs;		   // alarm setting
+  logic[3:0] TDay, AlarmDay;
   logic[6:0] Min, Hrs;
-  logic S_max, M_max, H_max, 	   // "carry out" from sec -> min, min -> hrs, hrs -> days
+  logic S_max, M_max, H_max, D_max, 	   // "carry out" from sec -> min, min -> hrs, hrs -> days
         TMen, THen, AMen, AHen; 
 
 // (almost) free-running seconds counter	-- be sure to set modulus inputs on ct_mod_N modules
@@ -43,21 +45,34 @@ module Top_Level #(parameter NS=60, NH=24)(
 // output ports
     .ct_out(THrs), .ct_max(H_max));
 
+  ct_mod_N  Dct(
+// input ports
+	.clk(Pulse), .rst(Reset), .en((H_max && M_max && S_max) || (Timeset && Dayadv)), .modulus(ND),
+// output ports
+    .ct_out(TDay), .ct_max(D_max));
+
+  ct_mod_N  Dreg(
+// input ports
+	.clk(Pulse), .rst(Reset), .en(Alarmset && Dayadv), .modulus(ND),
+// output ports
+    .ct_out(AlarmDay), .ct_max(D_max));
+
 // alarm set registers -- either hold or advance 1/sec while being set
   ct_mod_N Mreg(
 // input ports
     .clk(Pulse), .rst(Reset), .en(Alarmset && Minadv), .modulus(NS),   
 // output ports    
-    .ct_out(AMin), .ct_max(M_max)  ); 
+    .ct_out(AMin), .ct_max(M_max)  );
 
   ct_mod_N  Hreg(
 // input ports
     .clk(Pulse), .rst(Reset), .en(Alarmset && Hrsadv), .modulus(NH),
 // output ports    
-    .ct_out(AHrs), .ct_max(H_max) ); 
+    .ct_out(AHrs), .ct_max(H_max) );
 
   wire [6:0] M_disp = Alarmset ? AMin : TMin;
   wire [6:0] H_disp = Alarmset ? AHrs : THrs;
+  wire [6:0] D_disp = Alarmset ? AlarmDay : TDay;
 
 // display drivers (2 digits each, 6 digits total)
   lcd_int Sdisp(					  // seconds display
@@ -78,9 +93,14 @@ module Top_Level #(parameter NS=60, NH=24)(
 	.Segment0  ( H0disp  )
 	);
 
+  lcd_int Ddisp(
+    .bin_in    (D_disp),
+	.Segment0  ( D0disp  )
+	);
+
 // buzz off :)	  make the connections
   alarm a1(
-    .tmin(TMin), .amin(AMin), .thrs(THrs), .ahrs(AHrs), .alarmOn(Alarmon), .buzz(Buzz)
+    .tmin(TMin), .amin(AMin), .thrs(THrs), .ahrs(AHrs), .tday(TDay), .alarmday(AlarmDay),  .alarmOn(Alarmon), .buzz(Buzz)
 	);
 
 endmodule
