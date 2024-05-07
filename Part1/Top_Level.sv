@@ -10,7 +10,7 @@ module Top_Level #(parameter NS=60, NH=24)(
 		Alarmon,
 		Pulse,		  // digital clock, assume 1 cycle/sec.
 // 6 decimal digit display (7 segment)
-  output [6:0] S1disp, S0disp, 	   // 2-digit seconds display
+  output logic [6:0] S1disp, S0disp, 	   // 2-digit seconds display
                M1disp, M0disp, 
                H1disp, H0disp,
 //                       D0disp,   // for part 2
@@ -56,28 +56,31 @@ module Top_Level #(parameter NS=60, NH=24)(
 // output ports    
     .ct_out(AHrs), .ct_max(H_max) ); 
 
+  wire [6:0] Mdisp = Alarmset ? AMin : TMin;
+  wire [6:0] Hdisp = Alarmset ? AHrs : THrs;
+
 // display drivers (2 digits each, 6 digits total)
   lcd_int Sdisp(					  // seconds display
-    .bin_in    (TSec)  ,
+    .bin_in    (TSec)  ,  // add more logic to what we're setting use MUX
 	.Segment1  (S1disp),
 	.Segment0  (S0disp)
 	);
 
   lcd_int Mdisp(
-    .bin_in    (TMin),
+    .bin_in    (Mdisp),
 	.Segment1  ( M1disp  ),
 	.Segment0  ( M0disp  )
 	);
 
   lcd_int Hdisp(
-    .bin_in    (THrs),
+    .bin_in    (Hdisp),
 	.Segment1  ( H1disp  ),
 	.Segment0  ( H0disp  )
 	);
 
 // buzz off :)	  make the connections
   alarm a1(
-    .tmin(TMin), .amin(AMin), .thrs(THrs), .ahrs(AHrs), .buzz(Buzz)
+    .tmin(TMin), .amin(AMin), .thrs(THrs), .ahrs(AHrs), .alarmOn(Alarmon), .buzz(Buzz)
 	);
 
 endmodule

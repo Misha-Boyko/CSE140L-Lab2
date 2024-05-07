@@ -5,7 +5,8 @@ module alarm(
   input[6:0]   tmin,
                amin,
 			   thrs,
-			   ahrs,						 
+			   ahrs,
+         alarmOn,						 
   output logic buzz
 );
 
@@ -13,7 +14,7 @@ module alarm(
     //buzz = 0;
     /* fill in the guts:
 	buzz = 1 when tmin and thrs match amin and ahrs, respectively */
-    if (tmin == amin && thrs == ahrs) buzz = 1;
+    if (tmin == amin && thrs == ahrs && alarmOn) buzz = 1;
     else buzz = 0;
   end
 endmodule
