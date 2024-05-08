@@ -1,8 +1,17 @@
-{C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_display_tb_file.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_display_tb_file.sv}
+{C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/Top_Level.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/Top_Level.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module Top_Level
 
 Top level modules:
-	--none--
+	Top_Level
+
+} {} {}} {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_tb_file.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_tb_file.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling package lab2_2_tb_file_sv_unit
+-- Compiling module lab2_2_tb_file
+
+Top level modules:
+	lab2_2_tb_file
 
 } {} {}} {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/ct_mod_N.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/ct_mod_N.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -10,6 +19,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	ct_mod_N
+
+} {} {}} {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_display_tb_file.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lab2_2_display_tb_file.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+
+Top level modules:
+	--none--
 
 } {} {}} {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lcd_int3.sv} {1 {vlog -work work -sv -stats=none {C:/Users/mboyk/CSE 140L/Lab 2/verilog starter code/part1_starter/Part 2/lcd_int3.sv}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
